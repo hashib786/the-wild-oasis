@@ -8,7 +8,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Row type="vertical">
+      <Row>
         <Row type="horizontal">
           <Heading as="h1">Hello World!</Heading>
           <div>
@@ -16,7 +16,7 @@ const App = () => {
             <Button onClick={() => alert("checkOut")}>Check Out!</Button>
           </div>
         </Row>
-        <Row type="vertical">
+        <Row>
           <Heading as="h2">Hello World!</Heading>
           <Heading as="h3">Hello World!</Heading>
           <div>
