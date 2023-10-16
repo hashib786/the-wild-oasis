@@ -13,7 +13,13 @@ const App = () => {
           <Heading as="h1">Hello World!</Heading>
           <div>
             <Button onClick={() => alert("checkIn")}>Check In!</Button>
-            <Button onClick={() => alert("checkOut")}>Check Out!</Button>
+            <Button
+              variation="secondary"
+              size="small"
+              onClick={() => alert("checkOut")}
+            >
+              Check Out!
+            </Button>
           </div>
         </Row>
         <Row>
