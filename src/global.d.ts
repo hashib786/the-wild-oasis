@@ -19,6 +19,7 @@ declare global {
     maxCapacity: string;
     name: string;
     regularPrice: string;
+    image: string;
   }
 }
 
