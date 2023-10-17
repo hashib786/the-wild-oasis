@@ -13,7 +13,7 @@ declare global {
     hello: RootState;
   }
 
-  interface FormData {
+  interface FormDataI {
     description: string;
     discount: string;
     maxCapacity: string;
