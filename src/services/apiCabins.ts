@@ -5,7 +5,7 @@ export const getCabins = async (): Promise<CabinI[]> => {
 
   if (error) {
     console.error(error);
-    throw new Error(error.message);
+    throw new Error("Getting Error when fetching Cabins");
   }
 
   if (!data) return [];
@@ -19,6 +19,6 @@ export const deleteCabin = async (id: number) => {
 
   if (error) {
     console.error(error);
-    throw new Error(error.message);
+    throw new Error("Getting Error when deleting Cabin");
   }
 };
