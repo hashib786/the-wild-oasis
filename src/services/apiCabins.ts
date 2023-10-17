@@ -12,3 +12,13 @@ export const getCabins = async (): Promise<CabinI[]> => {
 
   return data;
 };
+
+export const deleteCabin = async (id: number) => {
+  const { error, data } = await supabase.from("cabins").delete().eq("id", id);
+  console.log(data, id);
+
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
