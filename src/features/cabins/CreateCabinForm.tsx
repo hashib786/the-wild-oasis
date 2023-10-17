@@ -13,7 +13,7 @@ import FormRow from "../../ui/FormRow";
 function CreateCabinForm() {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset, getValues, formState } =
-    useForm<FormDataI>();
+    useForm<FormDataGet>();
   const toastRef = useRef<string | undefined>();
   const { errors } = formState;
 
@@ -31,9 +31,9 @@ function CreateCabinForm() {
     },
   });
 
-  const onSubmit = (data: FormDataI) => {
+  const onSubmit = (data: FormDataGet) => {
     toastRef.current = toast.loading("Creating cabin...");
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   };
 
   return (

@@ -13,13 +13,22 @@ declare global {
     hello: RootState;
   }
 
+  interface FormDataGet {
+    description: string;
+    discount: string;
+    maxCapacity: string;
+    name: string;
+    regularPrice: string;
+    image: FileList;
+  }
+
   interface FormDataI {
     description: string;
     discount: string;
     maxCapacity: string;
     name: string;
     regularPrice: string;
-    image: string;
+    image: File;
   }
 }
 
