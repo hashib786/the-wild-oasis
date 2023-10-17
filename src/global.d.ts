@@ -12,6 +12,14 @@ declare global {
     image: string;
     hello: RootState;
   }
+
+  interface FormData {
+    description: string;
+    discount: string;
+    maxCapacity: string;
+    name: string;
+    regularPrice: string;
+  }
 }
 
 const hello = " asdf";
