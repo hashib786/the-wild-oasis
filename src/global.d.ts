@@ -35,8 +35,15 @@ declare global {
     created_at: string;
     id: number;
     maxBookingLength: number;
-    maxGuestPerBooking:number;
+    maxGuestPerBooking: number;
     minBookingLength: number;
+  }
+
+  interface NewSettingI {
+    breakFastPrice?: string;
+    maxBookingLength?: string;
+    maxGuestPerBooking?: string;
+    minBookingLength?: string;
   }
 }
 

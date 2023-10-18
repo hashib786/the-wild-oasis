@@ -1,19 +1,20 @@
 // import { useUpdateSetting } from 'features/settings/useUpdateSetting';
+import { useRef } from "react";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
 import useSettings from "./useSettings";
+import useUpdateSetting from "./useUpdateSetting";
+import toast from "react-hot-toast";
 
 function UpdateSettingsForm() {
   const { settings, isLoading } = useSettings();
-  const isUpdating = false;
+  const toastRef = useRef<string | undefined>();
+  const { updateSetting, isUpdating } = useUpdateSetting(toastRef);
 
-  console.log(settings);
-  // const { mutate: updateSetting, isLoading: isUpdating } = useUpdateSetting();
-
-  // return <Spinner />;
   if (isLoading || !settings) return <Spinner />;
+
   const {
     maxBookingLength,
     breakFastPrice,
@@ -21,10 +22,14 @@ function UpdateSettingsForm() {
     minBookingLength,
   } = settings;
 
-  function handleBlur(e, field) {
-    // const { value } = e.target;
-    // if (!value) return;
-    // updateSetting({ [field]: value });
+  function handleBlur(
+    e: React.FocusEvent<HTMLInputElement, Element>,
+    field: string
+  ) {
+    const { value } = e.target;
+    if (!value) return;
+    toastRef.current = toast.loading("Updating settings...");
+    updateSetting({ [field]: value });
   }
 
   // This time we are using UNCONTROLLED fields, so we will NOT store state
@@ -52,7 +57,7 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           defaultValue={maxGuestPerBooking}
-          onBlur={(e) => handleBlur(e, "maxGuestsPerBooking")}
+          onBlur={(e) => handleBlur(e, "maxGuestPerBooking")}
           disabled={isUpdating}
           id="max-guests"
         />
@@ -61,7 +66,7 @@ function UpdateSettingsForm() {
         <Input
           type="number"
           defaultValue={breakFastPrice}
-          onBlur={(e) => handleBlur(e, "breakfastPrice")}
+          onBlur={(e) => handleBlur(e, "breakFastPrice")}
           disabled={isUpdating}
           id="breakfast-price"
         />
