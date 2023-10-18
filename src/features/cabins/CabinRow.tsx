@@ -95,7 +95,11 @@ const CabinRow = ({ cabin }: Props) => {
 
         <Price>{formatCurrency(regularPrice)}</Price>
 
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <div className="">
           <button
             onClick={() => setIsEditing(!isEditing)}
