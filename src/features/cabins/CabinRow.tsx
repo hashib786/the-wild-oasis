@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers.js";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins.js";
 import toast from "react-hot-toast";
 import { useRef, useState } from "react";
 import CreateCabinForm from "./CreateCabinForm.js";
+import useDeleteCabin from "./useDeleteCabin.js";
 
 const TableRow = styled.div`
   display: grid;
@@ -52,6 +51,7 @@ type Props = {
 const CabinRow = ({ cabin }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const toastRef = useRef<string | undefined>();
+  const { isDeleting, deleteCabin } = useDeleteCabin(toastRef);
   const {
     id: cabinId,
     name,
@@ -61,28 +61,9 @@ const CabinRow = ({ cabin }: Props) => {
     image,
   } = cabin;
 
-  const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: (id: number) => deleteCabin(id),
-    onSuccess: () => {
-      toast.dismiss(toastRef.current);
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin deleted successfully");
-    },
-    onError: (err: Error) => {
-      toast.dismiss(toastRef.current);
-      console.log(toastRef.current);
-
-      toast.error(err?.message);
-    },
-  });
-
   const handleDelete = (id: number) => {
     toastRef.current = toast.loading("Deleting cabin...");
-    mutate(id);
+    deleteCabin(id);
   };
 
   return (
