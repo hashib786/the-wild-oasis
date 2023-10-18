@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { useRef, useState } from "react";
 import CreateCabinForm from "./CreateCabinForm.js";
 import useDeleteCabin from "./useDeleteCabin.js";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import useCreateEditCabin from "./useCreateEditCabin.js";
 
 const TableRow = styled.div`
   display: grid;
@@ -49,9 +51,6 @@ type Props = {
 };
 
 const CabinRow = ({ cabin }: Props) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const toastRef = useRef<string | undefined>();
-  const { isDeleting, deleteCabin } = useDeleteCabin(toastRef);
   const {
     id: cabinId,
     name,
@@ -59,7 +58,27 @@ const CabinRow = ({ cabin }: Props) => {
     regularPrice,
     discount,
     image,
+    description,
   } = cabin;
+  const [isEditing, setIsEditing] = useState(false);
+  const toastRef = useRef<string | undefined>();
+  const { isDeleting, deleteCabin } = useDeleteCabin(toastRef);
+  const { isWorking, createEditMutateCabin } = useCreateEditCabin(toastRef);
+
+  const duplicateCabin = () => {
+    toastRef.current = toast.loading("Duplicating cabin...");
+
+    createEditMutateCabin({
+      cabin: {
+        name: `copy Of ${name}`,
+        maxCapacity,
+        regularPrice,
+        discount,
+        image,
+        description,
+      },
+    });
+  };
 
   const handleDelete = (id: number) => {
     toastRef.current = toast.loading("Deleting cabin...");
@@ -82,14 +101,17 @@ const CabinRow = ({ cabin }: Props) => {
           <span>&mdash;</span>
         )}
         <div className="">
+          <button onClick={() => duplicateCabin()} disabled={isWorking}>
+            <HiSquare2Stack />
+          </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
             disabled={isDeleting}
           >
-            Edit
+            <HiPencil />
           </button>
           <button onClick={() => handleDelete(cabinId)} disabled={isDeleting}>
-            Delete
+            <HiTrash />
           </button>
         </div>
       </TableRow>

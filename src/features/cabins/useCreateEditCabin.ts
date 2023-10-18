@@ -4,7 +4,7 @@ import { createEditCabin } from "../../services/apiCabins";
 
 const useCreateEditCabin = (
   toastRef: React.MutableRefObject<string | undefined>,
-  isEditSession: boolean
+  isEditSession: boolean = false
 ) => {
   const queryClient = useQueryClient();
   // Create/Edit cabin
@@ -15,7 +15,9 @@ const useCreateEditCabin = (
     onSuccess: () => {
       toast.dismiss(toastRef?.current);
       toast.success(
-        `Cabin ${isEditSession ? "Edited" : "Created"} successfully`
+        `${isEditSession ? "" : "New "}Cabin ${
+          isEditSession ? "Edited" : "Created"
+        } successfully`
       );
       queryClient.invalidateQueries(["cabins"]);
     },
