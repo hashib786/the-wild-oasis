@@ -29,6 +29,15 @@ declare global {
     description: string;
     image: File | string;
   }
+
+  interface SettingI {
+    breakFastPrice: number;
+    created_at: string;
+    id: number;
+    maxBookingLength: number;
+    maxGuestPerBooking:number;
+    minBookingLength: number;
+  }
 }
 
 const hello = " asdf";

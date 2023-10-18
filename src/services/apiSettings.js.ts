@@ -1,6 +1,6 @@
-import supabase from "./supabase";
+import supabase from "./supabaseClient";
 
-export async function getSettings() {
+export async function getSettings(): Promise<SettingI> {
   const { data, error } = await supabase.from("settings").select("*").single();
 
   if (error) {
