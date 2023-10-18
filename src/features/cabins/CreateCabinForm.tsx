@@ -1,14 +1,15 @@
+import { MutateOptions } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createEditCabin } from "../../services/apiCabins";
-import { useRef } from "react";
-import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
+import useCreateEditCabin from "./useCreateEditCabin";
 
 type Props = {
   cabin?: CabinI;
@@ -28,32 +29,16 @@ const defaultValue = {
 function CreateCabinForm({ cabin = defaultValue }: Props) {
   const { id: cabinId, ...editValue } = cabin;
   const isEditSession = Boolean(cabinId);
-  const queryClient = useQueryClient();
   const { register, handleSubmit, reset, getValues, formState } =
     useForm<CabinI>({
       defaultValues: isEditSession ? editValue : {},
     });
   const toastRef = useRef<string | undefined>();
+  const { isWorking, createEditMutateCabin } = useCreateEditCabin(
+    toastRef,
+    isEditSession
+  );
   const { errors } = formState;
-
-  // Create/Edit cabin
-  const { isLoading: isWorking, mutate: createEditMutateCabin } = useMutation({
-    mutationFn: ({ cabin, id }: { cabin: FormDataI; id?: number }) => {
-      return createEditCabin(cabin, id);
-    },
-    onSuccess: () => {
-      reset();
-      toast.dismiss(toastRef?.current);
-      toast.success(
-        `Cabin ${isEditSession ? "Edited" : "Created"} successfully`
-      );
-      queryClient.invalidateQueries(["cabins"]);
-    },
-    onError: (error: Error) => {
-      toast.dismiss(toastRef?.current);
-      toast.error(error.message);
-    },
-  });
 
   const onSubmit = (data: CabinI) => {
     let newCabin: FormDataI = { ...data };
@@ -63,8 +48,19 @@ function CreateCabinForm({ cabin = defaultValue }: Props) {
     toastRef.current = toast.loading(
       `${isEditSession ? "Editing" : "Creating"} cabin...`
     );
-    if (!isEditSession) createEditMutateCabin({ cabin: newCabin });
-    else createEditMutateCabin({ cabin: newCabin, id: cabinId });
+
+    // For Resetting Form
+    const resetForm: MutateOptions<
+      void,
+      Error,
+      { cabin: FormDataI; id?: number | undefined },
+      unknown
+    > = {
+      onSuccess: () => reset(),
+    };
+
+    if (!isEditSession) createEditMutateCabin({ cabin: newCabin }, resetForm);
+    else createEditMutateCabin({ cabin: newCabin, id: cabinId }, resetForm);
   };
 
   return (
