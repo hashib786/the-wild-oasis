@@ -6,7 +6,7 @@ const { Open, Window } = Modal;
 
 const AddCabin = () => {
   return (
-    <div>
+    <>
       <Modal>
         <Open opens="add-cabin">
           <Button>Add New Cabin</Button>
@@ -15,7 +15,7 @@ const AddCabin = () => {
           <CreateCabinForm />
         </Window>
       </Modal>
-    </div>
+    </>
   );
 };
 
