@@ -13,6 +13,7 @@ import useCreateEditCabin from "./useCreateEditCabin";
 
 type Props = {
   cabin?: CabinI;
+  onClose?: () => void;
 };
 
 const defaultValue = {
@@ -26,7 +27,7 @@ const defaultValue = {
   image: "",
 };
 
-function CreateCabinForm({ cabin = defaultValue }: Props) {
+function CreateCabinForm({ cabin = defaultValue, onClose }: Props) {
   const { id: cabinId, ...editValue } = cabin;
   const isEditSession = Boolean(cabinId);
   const { register, handleSubmit, reset, getValues, formState } =
@@ -56,7 +57,10 @@ function CreateCabinForm({ cabin = defaultValue }: Props) {
       { cabin: FormDataI; id?: number | undefined },
       unknown
     > = {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        reset();
+        onClose?.();
+      },
     };
 
     if (!isEditSession) createEditMutateCabin({ cabin: newCabin }, resetForm);
@@ -64,7 +68,10 @@ function CreateCabinForm({ cabin = defaultValue }: Props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={onClose ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -142,7 +149,7 @@ function CreateCabinForm({ cabin = defaultValue }: Props) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>
