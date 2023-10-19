@@ -95,7 +95,13 @@ const Open = ({
   return cloneElement(children, { onClick: () => open(OpenWithName) });
 };
 
-const Window = ({ name, children }: { name: string; children: ReactNode }) => {
+const Window = ({
+  name,
+  children,
+}: {
+  name: string;
+  children: ReactElement;
+}) => {
   const { openName, close } = useContext(ModalContext);
 
   if (openName !== name) return null;
@@ -106,7 +112,7 @@ const Window = ({ name, children }: { name: string; children: ReactNode }) => {
         <Button onClick={close}>
           <HiXMark />
         </Button>
-        {children}
+        {cloneElement(children, { onClose: close })}
       </StyledModal>
     </Overlay>,
     document.body
