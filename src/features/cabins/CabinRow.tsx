@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers.js";
 import toast from "react-hot-toast";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import CreateCabinForm from "./CreateCabinForm.js";
 import useDeleteCabin from "./useDeleteCabin.js";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import useCreateEditCabin from "./useCreateEditCabin.js";
+import Modal from "../../ui/Modal.js";
 
 const TableRow = styled.div`
   display: grid;
@@ -60,7 +61,6 @@ const CabinRow = ({ cabin }: Props) => {
     image,
     description,
   } = cabin;
-  const [isEditing, setIsEditing] = useState(false);
   const toastRef = useRef<string | undefined>();
   const { isDeleting, deleteCabin } = useDeleteCabin(toastRef);
   const { isWorking, createEditMutateCabin } = useCreateEditCabin(toastRef);
@@ -104,18 +104,22 @@ const CabinRow = ({ cabin }: Props) => {
           <button onClick={() => duplicateCabin()} disabled={isWorking}>
             <HiSquare2Stack />
           </button>
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            disabled={isDeleting}
-          >
-            <HiPencil />
-          </button>
+          <Modal>
+            <Modal.Open opens="edit">
+              <button>
+                <HiPencil />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="edit">
+              <CreateCabinForm cabin={cabin} />
+            </Modal.Window>
+          </Modal>
+
           <button onClick={() => handleDelete(cabinId)} disabled={isDeleting}>
             <HiTrash />
           </button>
         </div>
       </TableRow>
-      {isEditing && <CreateCabinForm cabin={cabin} />}
     </>
   );
 };
