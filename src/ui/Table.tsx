@@ -11,8 +11,8 @@ const StyledTable = styled.div`
 `;
 
 type Columns = {
-  columns: string
-}
+  columns: string;
+};
 const CommonRow = styled.div<Columns>`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
@@ -44,17 +44,17 @@ const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
 
-const Footer = styled.footer`
-  background-color: var(--color-grey-50);
-  display: flex;
-  justify-content: center;
-  padding: 1.2rem;
+// const Footer = styled.footer`
+//   background-color: var(--color-grey-50);
+//   display: flex;
+//   justify-content: center;
+//   padding: 1.2rem;
 
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
-  &:not(:has(*)) {
-    display: none;
-  }
-`;
+//   /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
+//   &:not(:has(*)) {
+//     display: none;
+//   }
+// `;
 
 const Empty = styled.p`
   font-size: 1.6rem;
@@ -79,7 +79,7 @@ const Table = ({ children, columns }: Props) => {
 };
 
 const Header = ({ children }: { children: ReactNode }) => {
-  const {columns} = useContext(TableContext);
+  const { columns } = useContext(TableContext);
   return (
     <StyledHeader columns={columns} role="row" as="header">
       {children}
@@ -88,15 +88,25 @@ const Header = ({ children }: { children: ReactNode }) => {
 };
 
 const Row = ({ children }: { children: ReactNode }) => {
-  const {columns} = useContext(TableContext);
+  const { columns } = useContext(TableContext);
   return (
     <StyledRow columns={columns} role="row" as="header">
       {children}
     </StyledRow>
   );
-}
+};
+
+type BodyProps<T> = {
+  data: T[];
+  render: (data: T) => ReactNode;
+};
+const Body = <T,>({ data, render }: BodyProps<T>) => {
+  if (!data.length) return <Empty>No Data found</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+};
 
 Table.Header = Header;
 Table.Row = Row;
+Table.Body = Body;
 
 export default Table;
