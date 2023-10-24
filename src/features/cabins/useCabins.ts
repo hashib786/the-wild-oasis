@@ -7,7 +7,7 @@ const useCabins = () => {
     queryFn: getCabins,
   });
 
-  return { isLoading, cabins };
+  return { isLoading, cabins: cabins || [] };
 };
 
 export default useCabins;
