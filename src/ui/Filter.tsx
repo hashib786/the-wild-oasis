@@ -36,11 +36,6 @@ const FilterButton = styled.button<{ active: boolean }>`
   }
 `;
 
-interface FilterI {
-  label: string;
-  value: string;
-}
-
 type FilterProps = {
   filters: FilterI[];
   filter: string;
@@ -61,6 +56,7 @@ const Filter = ({ filter, filters }: FilterProps) => {
       {filters.map(({ label, value }) => (
         <FilterButton
           active={params === value}
+          disabled={params === value}
           onClick={() => handleClick(value)}
         >
           {label}

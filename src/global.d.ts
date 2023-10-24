@@ -45,6 +45,11 @@ declare global {
     maxGuestPerBooking?: string;
     minBookingLength?: string;
   }
+
+  interface FilterI {
+    label: string;
+    value: string;
+  }
 }
 
 const hello = " asdf";
