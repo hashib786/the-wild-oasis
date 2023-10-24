@@ -1,3 +1,4 @@
+import { ReactNode, createContext, useState } from "react";
 import styled from "styled-components";
 
 const StyledMenu = styled.div`
@@ -25,7 +26,13 @@ const StyledToggle = styled.button`
   }
 `;
 
-const StyledList = styled.ul`
+type PositionT = {
+  position: {
+    x: number;
+    y: number;
+  };
+};
+const StyledList = styled.ul<PositionT>`
   position: fixed;
 
   background-color: var(--color-grey-0);
@@ -60,3 +67,39 @@ const StyledButton = styled.button`
     transition: all 0.3s;
   }
 `;
+
+interface IntialStateI {
+  openId: number | null;
+  close: () => void;
+  setPosition: React.Dispatch<React.SetStateAction<PositionT | null>>;
+  open: React.Dispatch<React.SetStateAction<number | null>>;
+  position: PositionT | null;
+}
+
+const IntialState = {
+  openId: null,
+  close: () => {},
+  open: () => {},
+  setPosition: () => {},
+  position: null,
+};
+
+const MenuContext = createContext<IntialStateI>(IntialState);
+
+const Menus = ({ children }: { children: ReactNode }) => {
+  const [openId, setOpenId] = useState<number | null>(null);
+  const [position, setPosition] = useState<PositionT | null>(null);
+
+  const close = () => setOpenId(null);
+  const open = setOpenId;
+
+  return (
+    <MenuContext.Provider
+      value={{ close, open, position, openId, setPosition }}
+    >
+      {children}
+    </MenuContext.Provider>
+  );
+};
+
+export default Menus;
