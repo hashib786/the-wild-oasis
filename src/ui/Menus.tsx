@@ -102,7 +102,7 @@ const Menus = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Toggle = ({ id }: { children: ReactNode; id: number }) => {
+const Toggle = ({ id }: { id: number }) => {
   const { close, openId, setPosition, open } = useContext(MenuContext);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -110,7 +110,6 @@ const Toggle = ({ id }: { children: ReactNode; id: number }) => {
     const rect = targetButton.closest("button")?.getBoundingClientRect();
     if (!rect) return;
 
-    console.log(rect);
     setPosition({
       x: window.innerWidth - rect.x - rect.width,
       y: rect.y + rect.height + 8,
