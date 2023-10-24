@@ -4,7 +4,14 @@ import TableOperations from "../../ui/TableOperations";
 const CabinTableOperations = () => {
   return (
     <TableOperations>
-      <Filter />
+      <Filter
+        filter="discount"
+        filters={[
+          { label: "All", value: "all" },
+          { label: "No discount", value: "no-discount" },
+          { label: "With discount", value: "with-discount" },
+        ]}
+      />
     </TableOperations>
   );
 };

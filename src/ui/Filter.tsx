@@ -36,35 +36,36 @@ const FilterButton = styled.button<{ active: boolean }>`
   }
 `;
 
-const Filter = () => {
+interface FilterI {
+  label: string;
+  value: string;
+}
+
+type FilterProps = {
+  filters: FilterI[];
+  filter: string;
+};
+
+const Filter = ({ filter, filters }: FilterProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const params = searchParams.get("discount") || "all";
+  if (!filters.length) return null;
+  const params = searchParams.get(filter) || filters.at(0)?.value;
 
   const handleClick = (value: string) => {
-    searchParams.set("discount", value);
+    searchParams.set(filter, value);
     setSearchParams(searchParams);
   };
 
   return (
     <StyledFilter>
-      <FilterButton
-        active={params === "all"}
-        onClick={() => handleClick("all")}
-      >
-        All
-      </FilterButton>
-      <FilterButton
-        active={params === "no-discount"}
-        onClick={() => handleClick("no-discount")}
-      >
-        No discount
-      </FilterButton>
-      <FilterButton
-        active={params === "with-discount"}
-        onClick={() => handleClick("with-discount")}
-      >
-        With discount
-      </FilterButton>
+      {filters.map(({ label, value }) => (
+        <FilterButton
+          active={params === value}
+          onClick={() => handleClick(value)}
+        >
+          {label}
+        </FilterButton>
+      ))}
     </StyledFilter>
   );
 };
