@@ -1,15 +1,25 @@
+import { filterType } from "../features/bookings/useBookings.js";
 import { getToday } from "../utils/helpers.js";
 import supabase from "./supabaseClient";
 
-export const getAllBookings = async (): Promise<BookingI[]> => {
-  const { data, error } = await supabase.from("bookings").select(`id, 
-  created_at, 
-  startDate, 
-  endDate, 
-  numGuests, 
-  numNights, 
-  totalPrice, 
-  status, cabins(name), guests(fullName, email)`);
+type AllBookingsI = {
+  filter: filterType | null;
+};
+
+export const getAllBookings = async ({
+  filter,
+}: AllBookingsI): Promise<BookingI[]> => {
+  console.log(filter);
+  let query = supabase
+    .from("bookings")
+    .select(
+      `id, created_at, startDate, endDate, numGuests, numNights, totalPrice, status, cabins(name), guests(fullName, email)`
+    );
+
+  if (filter) query = query[filter.method](filter.field, filter.value);
+
+  const { data, error } = await query;
+
   if (error) {
     console.error(error);
     throw new Error("Getting Error when fetching Cabins");
