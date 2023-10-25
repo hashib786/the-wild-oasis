@@ -73,7 +73,6 @@ function BookingRow({ booking }: BookingProps) {
           {format(new Date(endDate), "MMM dd yyyy")}
         </span>
       </Stacked>
-
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
