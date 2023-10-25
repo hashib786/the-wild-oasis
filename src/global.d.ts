@@ -10,6 +10,23 @@ declare global {
     description: string;
     image: string;
   }
+  interface BookingI {
+    id: 1;
+    created_at: string;
+    startDate: string;
+    endDate: string;
+    numGuests: 2;
+    numNights: 6;
+    totalPrice: 320;
+    status: "unconfirmed" | "checked-in" | "checked-out";
+    cabins: {
+      name: string;
+    };
+    guests: {
+      email: string;
+      fullName: string;
+    };
+  }
 
   interface FormDataGet {
     id: number;

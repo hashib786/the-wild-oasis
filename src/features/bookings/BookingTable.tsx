@@ -2,12 +2,12 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import useBookings from "./useBookings";
 import Spinner from "../../ui/Spinner";
+import BookingRow from "./BookingRow";
 
 function BookingTable() {
   const { isLoading, bookings } = useBookings();
 
   if (isLoading) return <Spinner />;
-  console.log(bookings);
 
   return (
     <Menus>
@@ -21,12 +21,12 @@ function BookingTable() {
           <div></div>
         </Table.Header>
 
-        {/* <Table.Body
+        <Table.Body
           data={bookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
-        /> */}
+        />
       </Table>
     </Menus>
   );

@@ -1,8 +1,15 @@
 import { getToday } from "../utils/helpers.js";
 import supabase from "./supabaseClient";
 
-export async function getAllBookings() {
-  const { data, error } = await supabase.from("bookings").select("*");
+export const getAllBookings = async (): Promise<BookingI[]> => {
+  const { data, error } = await supabase.from("bookings").select(`id, 
+  created_at, 
+  startDate, 
+  endDate, 
+  numGuests, 
+  numNights, 
+  totalPrice, 
+  status, cabins(name), guests(fullName, email)`);
   console.log(data);
   if (error) {
     console.error(error);
@@ -12,7 +19,7 @@ export async function getAllBookings() {
   if (!data) return [];
 
   return data;
-}
+};
 
 export async function getBooking(id) {
   const { data, error } = await supabase
