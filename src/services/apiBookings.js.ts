@@ -1,5 +1,18 @@
-import { getToday } from "../utils/helpers";
-import supabase from "./supabase";
+import { getToday } from "../utils/helpers.js";
+import supabase from "./supabaseClient";
+
+export async function getAllBookings() {
+  const { data, error } = await supabase.from("bookings").select("*");
+  console.log(data);
+  if (error) {
+    console.error(error);
+    throw new Error("Getting Error when fetching Cabins");
+  }
+
+  if (!data) return [];
+
+  return data;
+}
 
 export async function getBooking(id) {
   const { data, error } = await supabase
