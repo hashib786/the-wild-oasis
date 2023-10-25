@@ -28,6 +28,18 @@ declare global {
     };
   }
 
+  interface NewBookingI {
+    created_at: string;
+    startDate: string;
+    endDate: string;
+    cabinId: number;
+    guestId: number;
+    hasBreakfast: boolean;
+    observations: string;
+    isPaid: boolean;
+    numGuests: number;
+  }
+
   interface FormDataGet {
     id: number;
     name: string;

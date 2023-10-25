@@ -10,7 +10,6 @@ export const getAllBookings = async (): Promise<BookingI[]> => {
   numNights, 
   totalPrice, 
   status, cabins(name), guests(fullName, email)`);
-  console.log(data);
   if (error) {
     console.error(error);
     throw new Error("Getting Error when fetching Cabins");
