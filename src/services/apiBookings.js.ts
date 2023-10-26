@@ -1,13 +1,15 @@
-import { filterType } from "../features/bookings/useBookings.js";
+import { filterType, sortType } from "../features/bookings/useBookings.js";
 import { getToday } from "../utils/helpers.js";
 import supabase from "./supabaseClient";
 
 type AllBookingsI = {
   filter: filterType | null;
+  sortBy: sortType | null;
 };
 
 export const getAllBookings = async ({
   filter,
+  sortBy,
 }: AllBookingsI): Promise<BookingI[]> => {
   console.log(filter);
   let query = supabase
@@ -17,6 +19,11 @@ export const getAllBookings = async ({
     );
 
   if (filter) query = query[filter.method](filter.field, filter.value);
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
   const { data, error } = await query;
 

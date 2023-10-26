@@ -8,10 +8,17 @@ export type filterType = {
   method: "lt" | "gt" | "eq" | "lte" | "gte";
 };
 
+export type sortType = {
+  field: string;
+  direction: string;
+};
+
 const useBookings = () => {
   const [searchParams] = useSearchParams();
   const paramsStatus = searchParams.get("status");
+  const sortStatus = searchParams.get("sortBy") || "startDate-desc";
 
+  // Filter
   const filter: filterType | null =
     !paramsStatus || paramsStatus === "all"
       ? null
@@ -21,9 +28,18 @@ const useBookings = () => {
           method: "eq",
         };
 
+  // Sort
+  const sortBy: sortType | null =
+    sortStatus.split("-").length === 2
+      ? {
+          field: sortStatus.split("-").at(0) || "startDate",
+          direction: sortStatus.split("-").at(1) || "desc",
+        }
+      : null;
+
   const { isLoading, data: bookings } = useQuery<BookingI[]>({
-    queryKey: ["bookings", filter],
-    queryFn: () => getAllBookings({ filter }),
+    queryKey: ["bookings", filter, sortBy],
+    queryFn: () => getAllBookings({ filter, sortBy }),
   });
 
   return { isLoading, bookings: bookings || [] };
