@@ -44,17 +44,17 @@ const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
 
-// const Footer = styled.footer`
-//   background-color: var(--color-grey-50);
-//   display: flex;
-//   justify-content: center;
-//   padding: 1.2rem;
+const Footer = styled.footer`
+  background-color: var(--color-grey-50);
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem;
 
-//   /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
-//   &:not(:has(*)) {
-//     display: none;
-//   }
-// `;
+  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
+  &:not(:has(*)) {
+    display: none;
+  }
+`;
 
 const Empty = styled.p`
   font-size: 1.6rem;
@@ -108,5 +108,6 @@ const Body = <T,>({ data, render }: BodyProps<T>) => {
 Table.Header = Header;
 Table.Row = Row;
 Table.Body = Body;
+Table.Footer = Footer;
 
 export default Table;

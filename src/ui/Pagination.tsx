@@ -105,8 +105,7 @@ const Pagination = ({ count }: Props) => {
           <HiChevronLeft />
           <span>Previous</span>
         </PaginationButton>
-      </Buttons>
-      <Buttons>
+
         <PaginationButton
           active={currentPage !== pageCount}
           onClick={handleNext}
