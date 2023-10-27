@@ -37,12 +37,12 @@ const useBookings = () => {
         }
       : null;
 
-  const { isLoading, data: bookings } = useQuery<BookingI[]>({
+  const { isLoading, data } = useQuery<{ data: BookingI[]; count: number }>({
     queryKey: ["bookings", filter, sortBy],
     queryFn: () => getAllBookings({ filter, sortBy }),
   });
-
-  return { isLoading, bookings: bookings || [] };
+  if (!data) return { isLoading, bookings: [], count: 0 };
+  return { isLoading, bookings: data.data, count: data.count };
 };
 
 export default useBookings;

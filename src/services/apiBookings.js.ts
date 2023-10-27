@@ -10,12 +10,13 @@ type AllBookingsI = {
 export const getAllBookings = async ({
   filter,
   sortBy,
-}: AllBookingsI): Promise<BookingI[]> => {
+}: AllBookingsI): Promise<{ data: BookingI[]; count: number }> => {
   console.log(filter);
   let query = supabase
     .from("bookings")
     .select(
-      `id, created_at, startDate, endDate, numGuests, numNights, totalPrice, status, cabins(name), guests(fullName, email)`
+      `id, created_at, startDate, endDate, numGuests, numNights, totalPrice, status, cabins(name), guests(fullName, email)`,
+      { count: "exact" }
     );
 
   if (filter) query = query[filter.method](filter.field, filter.value);
@@ -25,16 +26,16 @@ export const getAllBookings = async ({
       ascending: sortBy.direction === "asc",
     });
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
     throw new Error("Getting Error when fetching Cabins");
   }
 
-  if (!data) return [];
+  if (!data) return { data: [], count: 0 };
 
-  return data as unknown as BookingI[];
+  return { data, count } as unknown as { data: BookingI[]; count: number };
 };
 
 export async function getBooking(id) {
