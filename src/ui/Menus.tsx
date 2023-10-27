@@ -108,7 +108,6 @@ const Toggle = ({ id }: { id: number }) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const targetButton = e.target as HTMLButtonElement;
     const rect = targetButton.closest("button")?.getBoundingClientRect();
-    console.log(id, openId);
     openId === null || openId !== id ? open(id) : close();
     if (!rect) return;
 
