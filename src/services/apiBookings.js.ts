@@ -32,8 +32,6 @@ export const getAllBookings = async ({
     throw new Error("Getting Error when fetching Cabins");
   }
 
-  console.log(data);
-
   if (!data) return [];
 
   return data as unknown as BookingI[];
