@@ -37,9 +37,12 @@ const useBookings = () => {
         }
       : null;
 
+  // Pagination
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+
   const { isLoading, data } = useQuery<{ data: BookingI[]; count: number }>({
-    queryKey: ["bookings", filter, sortBy],
-    queryFn: () => getAllBookings({ filter, sortBy }),
+    queryKey: ["bookings", filter, sortBy, page],
+    queryFn: () => getAllBookings({ filter, sortBy, page }),
   });
   if (!data) return { isLoading, bookings: [], count: 0 };
   return { isLoading, bookings: data.data, count: data.count };

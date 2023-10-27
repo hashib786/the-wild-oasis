@@ -80,7 +80,5 @@ declare global {
     value: string;
   }
 }
-
-const hello = " asdf";
-
+const hello = "Hashib";
 export default hello;

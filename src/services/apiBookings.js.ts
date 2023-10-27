@@ -1,17 +1,19 @@
 import { filterType, sortType } from "../features/bookings/useBookings.js";
+import { PAGE_SIZE } from "../utils/constant.js";
 import { getToday } from "../utils/helpers.js";
 import supabase from "./supabaseClient";
 
 type AllBookingsI = {
   filter: filterType | null;
   sortBy: sortType | null;
+  page?: number;
 };
 
 export const getAllBookings = async ({
   filter,
   sortBy,
+  page,
 }: AllBookingsI): Promise<{ data: BookingI[]; count: number }> => {
-  console.log(filter);
   let query = supabase
     .from("bookings")
     .select(
@@ -25,6 +27,12 @@ export const getAllBookings = async ({
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
 
   const { data, error, count } = await query;
 
