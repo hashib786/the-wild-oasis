@@ -10,8 +10,6 @@ import {
 import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
 
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
-
 const StyledBookingDataBox = styled.section`
   /* Box */
   background-color: var(--color-grey-0);
@@ -68,7 +66,7 @@ const Guest = styled.div`
   }
 `;
 
-const Price = styled.div`
+const Price = styled.div<{ isPaid: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -102,7 +100,7 @@ const Footer = styled.footer`
 `;
 
 // A purely presentational component
-function BookingDataBox({ booking }) {
+function BookingDataBox({ booking }: { booking: BookingDataI }) {
   const {
     created_at,
     startDate,
