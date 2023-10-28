@@ -89,7 +89,7 @@ declare global {
     cabinPrice: number;
     extrasPrice: number;
     totalPrice: number;
-    status: string;
+    status: "unconfirmed" | "checked-in" | "checked-out";
     hasBreakfast: boolean;
     isPaid: boolean;
     observations: string;
