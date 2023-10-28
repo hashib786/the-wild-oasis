@@ -46,7 +46,7 @@ export const getAllBookings = async ({
   return { data, count } as unknown as { data: BookingI[]; count: number };
 };
 
-export async function getBooking(id: string): Promise<BookingI> {
+export async function getBooking(id: string): Promise<BookingDataI> {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
@@ -57,7 +57,7 @@ export async function getBooking(id: string): Promise<BookingI> {
     console.error(error);
     throw new Error("Booking not found");
   }
-  console.log(JSON.stringify(data));
+
   return data;
 }
 

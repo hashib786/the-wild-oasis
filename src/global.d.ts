@@ -113,6 +113,7 @@ declare global {
       nationalID: string;
       nationality: string;
       countryFlag: string;
+      country: string;
     };
   }
 }

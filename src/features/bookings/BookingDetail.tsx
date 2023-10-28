@@ -9,6 +9,7 @@ import ButtonText from "../../ui/ButtonText";
 import { useMoveBack } from "../../hooks/useMoveBack.js";
 import useBooking from "./useBooking.js";
 import Spinner from "../../ui/Spinner.js";
+import BookingDataBox from "./BookingDataBox.js";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ function BookingDetail() {
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
-      {/* <BookingDataBox booking={booking} /> */}
+      <BookingDataBox booking={booking} />
 
       <ButtonGroup>
         <Button variation="secondary" onClick={moveBack}>
