@@ -79,65 +79,41 @@ declare global {
     label: string;
     value: string;
   }
-  interface Cabin {
-    cabinId: number;
-    cabinPrice: number;
-    cabins: {
-      created_at: string;
-      description: string;
-      discount: number;
-      id: number;
-      image: string;
-      maxCapacity: number;
-      name: string;
-      regularPrice: number;
-    };
-  }
-
-  interface Guest {
-    countryFlag: string;
-    created_at: string;
-    email: string;
-    fullName: string;
-    id: number;
-    nationalID: string;
-    nationality: string;
-  }
-
-  interface Booking {
-    hasBreakfast: boolean;
-    id: number;
-    isPaid: boolean;
-    numGuests: number;
-    numNights: number;
-    observations: string;
-    startDate: string;
-    endDate: string;
-    status: string;
-    totalPrice: number;
-  }
-
   interface BookingDataI {
     id: number;
     created_at: string;
     startDate: string;
     endDate: string;
-    numGuests: number;
     numNights: number;
+    numGuests: number;
+    cabinPrice: number;
+    extrasPrice: number;
     totalPrice: number;
-    status: "unconfirmed" | "checked-in" | "checked-out";
+    status: string;
+    hasBreakfast: boolean;
+    isPaid: boolean;
+    observations: string;
+    cabinId: number;
+    guestId: number;
     cabins: {
-      created_at: string;
-      description: string;
-      discount: number;
       id: number;
-      image: string;
-      maxCapacity: number;
+      created_at: string;
       name: string;
+      maxCapacity: number;
       regularPrice: number;
+      discount: number;
+      description: string;
+      image: string;
     };
-    guests: Guest;
-    booking: Booking;
+    guests: {
+      id: number;
+      created_at: string;
+      fullName: string;
+      email: string;
+      nationalID: string;
+      nationality: string;
+      countryFlag: string;
+    };
   }
 }
 const hello = "Hashib";
