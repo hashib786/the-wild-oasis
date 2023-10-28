@@ -45,7 +45,9 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button onClick={moveBack}>Check In</Button>
+        {booking.status === "unconfirmed" && (
+          <Button onClick={moveBack}>Check In</Button>
+        )}
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
