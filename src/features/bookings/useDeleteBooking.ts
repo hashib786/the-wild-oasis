@@ -13,14 +13,13 @@ export const useDeleteBooking = () => {
       return deleteBookingApi(bookingId);
     },
     onSuccess: () => {
-      toast.dismiss(toastRef.current);
       toast.success(`Booking successfully Deleted!`);
       queryClient.invalidateQueries(["bookings"]);
     },
     onError: () => {
-      toast.dismiss(toastRef.current);
       toast.success(`There was an error while Deleted!`);
     },
+    onSettled: () => toast.dismiss(toastRef.current),
   });
 
   return { deleteBooking, isDeleting };

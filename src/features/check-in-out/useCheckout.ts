@@ -15,14 +15,13 @@ export const useCheckOut = () => {
       });
     },
     onSuccess: (data) => {
-      toast.dismiss(toastRef.current);
       toast.success(`Booking ${data.id} successfully checked Out!`);
       queryClient.invalidateQueries({ type: "active" });
     },
     onError: () => {
-      toast.dismiss(toastRef.current);
       toast.success(`There was an error while CheckOut in!`);
     },
+    onSettled: () => toast.dismiss(toastRef.current),
   });
 
   return { checkOut, isCheckIngOut };

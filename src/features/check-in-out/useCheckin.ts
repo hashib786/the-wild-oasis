@@ -25,15 +25,14 @@ export const useCheckin = () => {
       });
     },
     onSuccess: (data) => {
-      toast.dismiss(toastRef.current);
       toast.success(`Booking ${data.id} successfully checked in!`);
       queryClient.invalidateQueries({ type: "active" });
       navigate("/bookings");
     },
     onError: () => {
-      toast.dismiss(toastRef.current);
       toast.success(`There was an error while checking in!`);
     },
+    onSettled: () => toast.dismiss(toastRef.current),
   });
 
   return { checkin, isCheckIn };
