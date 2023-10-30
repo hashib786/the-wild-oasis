@@ -28,7 +28,9 @@ function CheckinBooking() {
     setConfirmPaid(() => booking?.isPaid || false);
   }, [booking]);
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    
+  }
 
   if (isLoading) return <Spinner />;
   if (!booking) return null;
