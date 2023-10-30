@@ -2,10 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBooking } from "../../services/apiBookings.js";
 import toast from "react-hot-toast";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useCheckin = () => {
   const queryClient = useQueryClient();
   const toastRef = useRef<string | undefined>();
+  const navigate = useNavigate();
 
   const { mutate: checkin, isLoading: isCheckIn } = useMutation({
     mutationFn: (bookingId: number) => {
@@ -16,6 +18,7 @@ export const useCheckin = () => {
       toast.dismiss(toastRef.current);
       toast.success(`Booking ${data.id} successfully checked in!`);
       queryClient.invalidateQueries({ type: "active" });
+      navigate("/bookings");
     },
     onError: () => {
       toast.dismiss(toastRef.current);
