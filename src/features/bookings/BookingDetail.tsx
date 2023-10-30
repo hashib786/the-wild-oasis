@@ -42,7 +42,7 @@ function BookingDetail() {
   const { id: bookingId } = booking;
 
   return (
-    <Modal>
+    <>
       <Row type="horizontal">
         <HeadingGroup>
           <Heading as="h1">Booking #{bookingId}</Heading>
@@ -54,9 +54,22 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Modal.Open opens="delete">
-          <Button>Delete</Button>
-        </Modal.Open>
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete</Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="Booking"
+              onConfirm={() =>
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate("/bookings"),
+                })
+              }
+              disabled={isDeleting}
+            />
+          </Modal.Window>
+        </Modal>
         {booking.status === "checked-in" && (
           <Button disabled={isCheckIngOut} onClick={() => checkOut(bookingId)}>
             Check Out
@@ -71,14 +84,7 @@ function BookingDetail() {
           Back
         </Button>
       </ButtonGroup>
-      <Modal.Window name="delete">
-        <ConfirmDelete
-          resourceName="Booking"
-          onConfirm={() => deleteBooking(bookingId)}
-          disabled={isDeleting}
-        />
-      </Modal.Window>
-    </Modal>
+    </>
   );
 }
 
