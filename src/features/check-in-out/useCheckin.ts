@@ -10,9 +10,19 @@ export const useCheckin = () => {
   const navigate = useNavigate();
 
   const { mutate: checkin, isLoading: isCheckIn } = useMutation({
-    mutationFn: (bookingId: number) => {
+    mutationFn: ({
+      bookingId,
+      breakfast,
+    }: {
+      bookingId: number;
+      breakfast?: { [key: string]: unknown };
+    }) => {
       toastRef.current = toast.loading("Checking in...");
-      return updateBooking(bookingId, { status: "checked-in", isPaid: true });
+      return updateBooking(bookingId, {
+        status: "checked-in",
+        isPaid: true,
+        ...breakfast,
+      });
     },
     onSuccess: (data) => {
       toast.dismiss(toastRef.current);
