@@ -116,6 +116,11 @@ declare global {
       country: string;
     };
   }
+
+  interface LoginI {
+    email: string;
+    password: string;
+  }
 }
 const hello = "Hashib";
 export default hello;
