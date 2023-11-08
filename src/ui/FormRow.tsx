@@ -1,4 +1,5 @@
 import { ReactNode, isValidElement } from "react";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import styled from "styled-components";
 
 const StyledFormRow = styled.div`
@@ -37,20 +38,28 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
+type ErrorType =
+  | string
+  | FieldError
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | Merge<FieldError, FieldErrorsImpl<any>>
+  | undefined;
+
 type Props = {
   label?: string;
-  error?: string;
+  error?: ErrorType;
   children: ReactNode;
 };
 
 const FormRow = ({ label, error, children }: Props) => {
+  console.log(error);
   return (
     <StyledFormRow>
       {label && isValidElement(children) && (
         <Label htmlFor={children.props.id}>{label}</Label>
       )}
       {children}
-      {error && <Error>{error}</Error>}
+      {error && <Error>{typeof error === "string" ? error : ""}</Error>}
     </StyledFormRow>
   );
 };
